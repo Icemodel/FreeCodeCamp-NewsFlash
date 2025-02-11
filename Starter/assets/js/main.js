@@ -6,22 +6,19 @@ const selectElement = (selector) => {
 };
 
 //Nav styles on scroll
-const scrollHeader = () =>{
+const scrollHeader = () => {
     const navbarElement = selectElement('#header');
-    if(this.scrollY >= 15) {
+    if (this.scrollY >= 15) {  
         navbarElement.classList.add('activated');
     } else {
         navbarElement.classList.remove('activated');
     }
-}
+};
 
 window.addEventListener('scroll', scrollHeader);
 
 // Open menu & search pop-up
 const menuToggleIcon = selectElement('#menu-toggle-icon');
-const formOpenBtn = selectElement('#search-icon');
-const formCloseBtn = selectElement('#form-close-btn');
-const searchContainer = selectElement('#search-form-container');
 
 const toggleMenu = () =>{
     const mobileMenu = selectElement('#menu');
@@ -31,9 +28,33 @@ const toggleMenu = () =>{
 
 menuToggleIcon.addEventListener('click', toggleMenu);
 // Open/Close search form popup
+const formOpenBtn = selectElement('#search-icon');
+const formCloseBtn = selectElement('#form-close-btn');
+const searchFormContainer = selectElement('#search-form-container');
+
+formOpenBtn.addEventListener('click', () => searchFormContainer.classList.add('activated'));
+formCloseBtn.addEventListener('click', () => searchFormContainer.classList.remove('activated'));
 
 // -- Close the search form popup on ESC keypress
-
+window.addEventListener('keyup', event => {
+    if(event.key === 'Escape') searchFormContainer.classList.remove('activated')
+})
 // Switch theme/add to local storage
+const bodyElement = document.body;
+const themeToggleBtn = selectElement('#theme-toggle-btn');
+const currentTheme = localStorage.getItem('currentTheme');
 
+if(currentTheme){
+    bodyElement.classList.add('light-theme');
+}
+
+themeToggleBtn.addEventListener('click', () =>{
+    bodyElement.classList.toggle('light-theme');
+
+    if(bodyElement.classList.contains('light-theme')){
+        localStorage.setItem('currentTheme', 'themeActive');
+    }else{
+        localStorage.removeItem('currentTheme');
+    }
+});
 // Swiper
